@@ -1,5 +1,5 @@
 
-var sock=new SockJS('http://localhost:3000/chat');
+var sock=new SockJS('http://192.168.1.19:3000/chat');
 
 function ChatCtrl($scope){
   $scope.messages = [];
