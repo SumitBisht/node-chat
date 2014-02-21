@@ -5,19 +5,33 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
     <script src="javascripts/chat.js"></script>
     <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <div ng-controller="ChatCtrl">
-        <ul>
-            <li ng-repeat="message in messages track by $index">
-               {{message}}
-            </li>
+        <table class="table table-striped">
+            <tr ng-repeat="message in messages track by $index">
+               <td>{{message}}</td>
+            </tr>
         </ul>
 
-        <form ng-submit="sendMessage()">
-            <input type="text" ng-model="messageText" placeholder="Type the message to be displayed here" />
-            <input type="submit" value="Send" />
+        <form class="form-horizontal">
+          <fieldset>
+
+          <!-- Form Name -->
+          <legend>Custom Chat</legend>
+          <!-- Text input-->
+          <label class="control-label" for="textinput">Text Input </label>
+          <input id="userName" name="textinput" type="text" placeholder="User Name" class="input-xlarge" ng-model="userName">
+          <br />
+
+          <!-- Message -->
+          <textarea class="form-control" id="textarea" name="textarea" placeholder="Input Text here" ng-model="messageText"></textarea>
+          <!-- Button -->
+          <label class="control-label" for="singlebutton"></label>
+          <button id="singlebutton" name="singlebutton" class="btn btn-info" ng-click="sendMessage()">Message</button>
+          </fieldset>
         </form>
     </div>
 
