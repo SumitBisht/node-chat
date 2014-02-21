@@ -19,13 +19,15 @@ function ChatCtrl($scope){
 
   function isOk(){
 	var text = $scope.messageText;
-	console.log(text);
-	if(text=='' || text==undefined){
-		alert('do not enter empty text');
+	var user = $scope.userName;
+	if(text==undefined || text==''){
+		alert('Do not enter empty text');
 		return false;
 	}else if(text.substring(0, 3)=='hmm'){
 		alert('Please respond, do not hmm');
 		return false;
+	}else if(user==undefined || user==''){
+		$scope.userName = 'Anon';
 	}
 	return true;
   }
