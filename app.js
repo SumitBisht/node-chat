@@ -23,6 +23,30 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+var sockjs = require('sockjs');
+var connections = [];
+
+var chat = sockjs.createServer();
+
+chat.on('connection', function(conn) {
+  connections.push(conn);
+  var number = connections.length;
+  conn.write("Welcome, User " + number);
+
+  conn.on('data', function(message){
+    for(var x=0; x<connections.length; x++) {
+      connections[x].write("User " + number + " says: " + message);
+    }
+  });
+
+  conn.on('close', function(){
+    for(var x=0; x<connections.length; x++) {
+      connections[x].write("User " + number + "has left");
+    }
+  });
+
+});
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -31,6 +55,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+chat.installHandlers(server, {prefix:'/chat'});
