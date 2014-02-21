@@ -4,7 +4,9 @@ var sock=new SockJS('http://192.168.1.19:3000/chat');
 function ChatCtrl($scope){
   $scope.messages = [];
   $scope.sendMessage = function(){
-    sock.send($scope.messageText);
+  	if(isOk()){
+  	    sock.send($scope.messageText);
+  	}
     $scope.messageText="";
   };
 
@@ -13,4 +15,18 @@ function ChatCtrl($scope){
     $scope.$apply();
   };
 
+
+
+  function isOk(){
+	var text = $scope.messageText;
+	console.log(text);
+	if(text=='' || text==undefined){
+		alert('do not enter empty text');
+		return false;
+	}else if(text.substring(0, 3)=='hmm'){
+		alert('Please respond, do not hmm');
+		return false;
+	}
+	return true;
+  }
 }
