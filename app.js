@@ -34,19 +34,20 @@ chat.on('connection', function(conn) {
   conn.write("Welcome, User " + number);
 
   conn.on('data', function(message){
-    for(var x=0; x<connections.length; x++) {
-      connections[x].write("User " + number + " says: " + message);
-    }
+    broadcast("User " + number + " says: " + message);
   });
 
   conn.on('close', function(){
-    for(var x=0; x<connections.length; x++) {
-      connections[x].write("User " + number + "has left");
-    }
+    broadcast("User " + number + "has left");
   });
 
 });
 
+function broadcast(message){
+  for(var user=0; user<connections.length; user++) {
+    connections[user].write(message);
+  }
+}
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
