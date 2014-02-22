@@ -31,7 +31,7 @@ var chat = sockjs.createServer();
 chat.on('connection', function(conn) {
   connections.push(conn);
   var number = connections.length;
-  conn.write("Welcome, User " + number);
+  broadcast('User ' + number + ' has joined.');
 
   conn.on('data', function(message){
     broadcast("User " + number + " says: " + message);
