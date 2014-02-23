@@ -21,16 +21,19 @@
 
           <!-- Form Name -->
           <legend>Custom Chat</legend>
-          <!-- Text input-->
-          <label class="control-label" for="textinput">Text Input </label>
+          <!-- User Name-->
+          <label class="control-label" for="textinput">User Name </label>
           <input id="userName" name="textinput" type="text" placeholder="User Name" class="input-xlarge" ng-model="userName">
           <br />
 
+          <!-- Text input-->
+          <label class="control-label" for="textinput">Text Input </label>
           <!-- Message -->
           <textarea class="form-control" id="textarea" name="textarea" placeholder="Input Text here" ng-model="messageText"></textarea>
           <!-- Button -->
           <label class="control-label" for="singlebutton"></label>
           <button id="singlebutton" name="singlebutton" class="btn btn-info" ng-click="sendMessage()">Message</button>
+          <button id="singlebutton1" name="singlebutton1" class="btn btn-info" ng-click="clearMessages()">Clear Messages</button>
           </fieldset>
         </form>
     </div>

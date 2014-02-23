@@ -16,7 +16,9 @@ function ChatCtrl($scope){
     $scope.$apply();
   };
 
-
+  $scope.clearMessages = function() {
+    $scope.messages = [];
+  }
 
   function isOk(){
 	var text = $scope.messageText;
