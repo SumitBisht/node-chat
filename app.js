@@ -34,7 +34,7 @@ chat.on('connection', function(conn) {
   broadcast('User ' + number + ' has joined.');
 
   conn.on('data', function(message){
-    broadcast("User " + number + " says: " + message);
+    broadcast(message);
   });
 
   conn.on('close', function(){
@@ -44,6 +44,11 @@ chat.on('connection', function(conn) {
 });
 
 function broadcast(message){
+  var DELIMITER = ':::::'
+  if(message.indexOf(DELIMITER)!=-1){
+    var details = message.split(DELIMITER);
+    message = details[0]+' says: '+ details[1];
+  }
   for(var user=0; user<connections.length; user++) {
     connections[user].write(message);
   }

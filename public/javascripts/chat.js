@@ -5,7 +5,8 @@ function ChatCtrl($scope){
   $scope.messages = [];
   $scope.sendMessage = function(){
   	if(isOk()){
-  	    sock.send($scope.messageText);
+        var msgText = $scope.userName+':::::'+$scope.messageText;
+  	    sock.send(msgText);
   	}
     $scope.messageText="";
   };
