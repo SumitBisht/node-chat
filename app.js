@@ -31,22 +31,28 @@ var chat = sockjs.createServer();
 chat.on('connection', function(conn) {
   connections.push(conn);
   var number = connections.length;
-  conn.write("Welcome, User " + number);
+  broadcast('User ' + number + ' has joined.');
 
   conn.on('data', function(message){
-    for(var x=0; x<connections.length; x++) {
-      connections[x].write("User " + number + " says: " + message);
-    }
+    broadcast(message);
   });
 
   conn.on('close', function(){
-    for(var x=0; x<connections.length; x++) {
-      connections[x].write("User " + number + "has left");
-    }
+    broadcast("User " + number + "has left");
   });
 
 });
 
+function broadcast(message){
+  var DELIMITER = ':::::'
+  if(message.indexOf(DELIMITER)!=-1){
+    var details = message.split(DELIMITER);
+    message = details[0]+' says: '+ details[1];
+  }
+  for(var user=0; user<connections.length; user++) {
+    connections[user].write(message);
+  }
+}
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
