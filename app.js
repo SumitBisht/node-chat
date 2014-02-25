@@ -38,7 +38,7 @@ chat.on('connection', function(conn) {
   });
 
   conn.on('close', function(){
-    broadcast("User " + number + "has left");
+    broadcast("User " + number + " has left.");
   });
 
 });

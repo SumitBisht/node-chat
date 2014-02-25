@@ -3,6 +3,7 @@ var sock=new SockJS('http://192.168.1.19:3000/chat');
 
 function ChatCtrl($scope){
   $scope.messages = [];
+  $scope.userCount = 0;
   $scope.sendMessage = function(){
   	if(isOk()){
         var msgText = $scope.userName+':::::'+$scope.messageText;
@@ -12,6 +13,14 @@ function ChatCtrl($scope){
   };
 
   sock.onmessage = function(e) {
+  	if(e.data.indexOf(' has joined.')!=-1){
+  		$scope.userCount +=1;
+  		console.log('User count is now '+$scope.userCount);
+  	}
+  	if(e.data.indexOf(' has left.')!=-1){
+  		$scope.userCount -=1;
+  		console.log('User count is now '+$scope.userCount);
+  	}
     $scope.messages.push(e.data);
     $scope.$apply();
   };
