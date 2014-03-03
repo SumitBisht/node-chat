@@ -1,7 +1,7 @@
-
+var chatApp = angular.module('ChatApp', []);
 var sock=new SockJS('http://192.168.1.19:3000/chat');
 
-function ChatCtrl($scope){
+chatApp.controller('ChatCtrl', function ($scope){
   $scope.messages = [];
   $scope.userCount = 0;
   $scope.sendMessage = function(){
@@ -41,4 +41,4 @@ function ChatCtrl($scope){
 	}
 	return true;
   }
-}
+});
