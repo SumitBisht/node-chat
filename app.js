@@ -73,13 +73,29 @@ app.post('/upload', function (req, res) {
       }
       else{
         var file = req.files.file;
+        var target_path = __dirname+'/public/uploaded/' + file.path.substring(5);
+        var url_path = '/uploaded/' + file.path.substring(5);
 
-        fs.unlink(file.path, function(error){
-          if(error)
-            throw error;
-          else
-            res.send(200, {msg: file.name + '"<b> uploaded to the server at ' + new Date().toString() });
+        fs.readFile(file.path, function(err, data){
+          if(err)
+            res.send(304, {msg: 'Unable to access uploaded file: '+err});
+          fs.writeFile(target_path, data, function(err){
+            if(err)
+              res.send(304, {msg: 'Unable to write uploaded file: '+err});
+
+            res.send(200, {msg: url_path});
+          });
         });
+
+
+        // fs.unlink(file.path, function(error){
+        //   if(error)
+        //     throw error;
+        //   else
+        //     console.log('File present at: '+file.path);
+        //     res.send(200, {msg: file.name + '"<b> uploaded to the server at ' + new Date().toString() });
+        // });
+
       }
     }, 5000);
 });
