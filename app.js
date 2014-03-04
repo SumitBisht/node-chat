@@ -20,10 +20,12 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.bodyParser());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 var sockjs = require('sockjs');
+var fs = require('fs');
 var connections = [];
 
 var chat = sockjs.createServer();
@@ -60,6 +62,27 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+app.post('/upload', function (req, res) {
+  console.log('Upload Post called with request file: '+req.files);
+  setTimeout(
+    function(){
+      res.setHeader('Content-Type', 'text/html');
+      if(req.files.length==0 || req.files.file.size == 0){
+        res.send(304, {msg: 'No file uploaded'});
+      }
+      else{
+        var file = req.files.file;
+
+        fs.unlink(file.path, function(error){
+          if(error)
+            throw error;
+          else
+            res.send(200, {msg: file.name + '"<b> uploaded to the server at ' + new Date().toString() });
+        });
+      }
+    }, 5000);
+});
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
