@@ -1,4 +1,4 @@
-var chatApp = angular.module('ChatApp', []);
+var chatApp = angular.module('ChatApp', ['ngUpload']);
 var sock=new SockJS('http://192.168.1.19:3000/chat');
 
 chatApp.controller('ChatCtrl', function ($scope){
@@ -25,6 +25,17 @@ chatApp.controller('ChatCtrl', function ($scope){
 
   $scope.clearMessages = function() {
     $scope.messages = [];
+  }
+
+  $scope.uploadFile = function (content, completed) {
+    console.log('Upload Completed');
+    console.log(content);
+    $scope.messages.push('File Uploaded: '+completed);
+    $scope.uploadResponse = 'Server Response: '+content;
+  };
+
+  $scope.clearServerResponse = function() {
+    $scope.uploadResponse = '';
   }
 
   function isOk(){
