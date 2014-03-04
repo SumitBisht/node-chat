@@ -3,13 +3,15 @@
   <head>
     <script src="javascripts/lib/sockjs-0.3.min.js"></script>
     <script src="javascripts/lib/angular.min.js"></script>
+    <script src="javascripts/lib/ng-upload.js"></script>
     <script src="javascripts/chat.js"></script>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
   </head>
   <body>
-    <div ng-controller="ChatCtrl">
+    <div class="container" ng-controller="ChatCtrl">
+    <div class="span8">
         <ul>
             <li ng-repeat="message in messages track by $index">
                {{message}}
@@ -21,7 +23,7 @@
 
           <!-- Form Name -->
           <legend>Custom Chat</legend>
-          <p ng-model="userCount">{{userCount}} users since you joined.</p>
+          <h3 ng-model="userCount">Users Online: {{userCount}}</h3>
           <!-- User Name-->
           <label class="control-label" for="textinput">User Name </label>
           <input id="userName" name="textinput" type="text" placeholder="User Name" class="input-xlarge" ng-model="userName">
@@ -37,6 +39,25 @@
           <button id="singlebutton1" name="singlebutton1" class="btn btn-info" ng-click="clearMessages()">Clear Messages</button>
           </fieldset>
         </form>
+      </div>
+      <div class="span3">
+        <fieldset>
+          <legend>Upload & Share</legend>
+            <form action="/upload?delay=yes" ng-upload="uploadFile(content)">
+              <p>
+                <label>Select a file to upload:</label>
+                <input type="file" name="file" ng-click="clearServerResponse()"></input>
+              </p>
+              <p>
+                <input type="submit" class="btn" value="Submit" ng-disabled="$isUploading"></input>
+              </p>
+            </form>
+            <div class="alert alert-info" ng-if="uploadResponse">
+              {{uploadResponse}}
+            </div><br>
+        </fieldset>
+      </div>
+
     </div>
 
   </body>
